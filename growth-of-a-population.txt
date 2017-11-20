@@ -1,0 +1,159 @@
+In a small town the population is p0 = 1000 at the beginning of a year. The population regularly increases by 2 percent per year and moreover 50 new inhabitants per year come to live in the town. How many years does the town need to see its population greater or equal to p = 1200 inhabitants?
+At the end of the first year there will be: 
+1000 + 1000 * 0.02 + 50 => 1070 inhabitants
+At the end of the 2nd year there will be: 
+1070 + 1070 * 0.02 + 50 => 1141 inhabitants (number of inhabitants is an integer)
+At the end of the 3rd year there will be:
+1141 + 1141 * 0.02 + 50 => 1213
+It will need 3 entire years.
+More generally given parameters:
+p0, percent, aug (inhabitants coming or leaving each year), p (population to surpass)
+the function nb_year should return n number of entire years needed to get a population greater or equal to p.
+aug is an integer (> 0), percent a positive or null floating number, p0 and p are positive integers (> 0)
+Examples:
+nb_year(1500, 5, 100, 5000) -> 15
+nb_year(1500000, 2.5, 10000, 2000000) -> 10
+Note: Don't forget to convert the percent parameter as a percentage in the body of your function: if the parameter percent is 2 you have to convert it to 0.02.
+
+1-new = old(1+0.02)+50
+2-new=(old(1.02)+50)(1.02)+50=old(1.02)^2+1.02*50+50
+3-new=[old(1.02)^2+1.02*50+50]*(1.02)+50 = old(1.02)^3+1.02^2*50+1.02*50 +50
+
+n-new = 50*((1-1.02**(n+1))/(1-1.02))
+
+i-----------------------------------------------
+def f(n):
+    k=old*(1.02)**(n+1)+50*1.02*(50**(n+1)-1.02**(n+1))/(50-1.02)
+    return k
+
+def f-new(n):
+    k= 50*()
+p0, percent, aug (inhabitants coming or leaving each year), p (population to surpass)
+幂的反算 就是 log
+nb < p-p0/aug
+
+if aug>0
+   nb < p-p0/aug
+elif aug<0
+
+
+
+
+def nb_year(p0,percent,aug,p):
+    percent=percent/100+1
+    for nb in range(0,(p-p0)/aug):
+        k=p0*(percent)**(nb+1)+au*percent*(au**(nb+1)-percent**(nb+1))/(au-percent)
+        if k>p
+           return nb
+    
+
+
+def nb_year(p0,percent,aug,p):
+    sum =p0*(1+percent*0.01)**(n)+ aug*((1-(1+percent*0.01)**(n))/(1-1+percent*0.01)
+
+i-----------------------------------------------
+
+def f(n):
+    if n==0:
+       return 1000
+    elif n==1:
+       return 1070
+    elif n>1:
+       return int(f(n-1)(1.02))+50
+    else:
+       return -1
+
+def nb_year(p0,percent,aug,p):
+    nb=(p-p0)/aug
+    g=p0
+    def f(n,p0,percent,aug,p):
+        if n==0:
+           return p0
+        elif n>=1:
+             g+=1
+             return   int(f(n-1,p0,percent,aug,p)*(1+percent)+aug)  
+        else:
+             return -1
+    for i in range(0,nb):
+        if f(i,p0,percent,aug,p)>p:
+           return i
+
+
+----------------------------------------------------------------------
+class FooException(Exception):
+    def __init__(self, foo):
+        self.foo = foo
+def nb_year(p0,percent,aug,p):
+    b=int((p-p0)/aug)
+    def f(x,running_total=0):
+        if n==0:
+           return running_total
+        else:
+           if running_total>=p:
+                         
+           return f(x-1,running_total*(1+percent)+aug)
+    try:
+      f(b,p0)
+    except FooException as e:
+      k=e.foo
+    return k
+
+----------------------------------------------------------------------
+
+def nb_year(p0,percent,aug,p):
+    b=int((p-p0)/aug)
+    result=0
+    def f(x,running_total=p0,t=0):
+        if running_total>=p:
+           result=t
+           return int(running_total)
+        else:
+           t+=1
+           return f(x-1,int(running_total*(1+percent)+aug),t)
+    return result
+
+
+----------------------------------------------------------------------
+ def nb_year(p0,percent,aug,p):          
+     b=int((p-p0)/aug)
+     result=[0]
+     def f(x,result,running_total=p0,t=0):
+         if running_total>=p:
+            result[0]=t
+            print(result)
+            return int(running_total)
+         else:
+            t+=1
+            return f(x-1,result,int(running_total*(1+percent*0.01)+aug),t)
+     f(b,result,p0)
+     return result[0]
+
+In [456]: nb_year(15000, 0.25, 1000, 2000000)
+[704]
+Out[456]: 704
+
+In [457]: nb_year(15000, 0.25, 1000, 200000000000)
+RuntimeError: maximum recursion depth exceeded in comparison
+
+i------------------------------------------------------------------------------
+very clever ---但是python 并不能十分好的支持栈，有递规深度
+def nb_year(p0, percent, aug, p, years = 0):
+    if p0 < p:
+        return nb_year(p0 + int(p0 * percent / 100) + aug, percent, aug, p, years + 1)
+    return years
+-------------------------------------------------------------------------------
+while循环才是正解
+def nb_year(population, percent, aug, target):
+    year = 0
+    while population < target:
+        population += population * percent / 100. + aug
+        year += 1
+    return year
+------------------------------------------------------------------------------
+def nb_year(p0, percent, aug, p):
+    i = 0    
+    while p0 < p:
+        p0 = p0 + (p0 * percent * 0.01) + aug
+        i += 1
+    return i
+

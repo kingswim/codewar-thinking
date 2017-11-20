@@ -1,0 +1,180 @@
+y=['a', 'a', 'a', 'b', 'b', 'b', ['c', 'c', 'd'], ['c', 'c', 'f']]
+p2={}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ y = ['a','a','a','b','b','b',['c','c','d'],['c','c','d']]
+
+how to convert a list to dict
+like:
+        i=['a','b','v','a','g','v','v']
+
+        {j:i.count(j) for j in i}
+
+
+In [359]: {j:i.count(j) for j in i}
+Out[359]: {'a': 2, 'b': 2, 'g': 1, 'v': 1}
+
+but when used for x:
+will get  TypeError: unhashable type: 'list'
+
+不能类型推断
+
+修改:    {j:i.count(j) for j in i if type(j)==int}
+只能先将x 中每个元素 str(x)，然后{j:i.count(j) for j in i}
+
+In [363]: f = lambda x: str(x)
+
+In [364]: [f(i) for i in x  ]
+Out[364]: ['a', 'a', 'a', 'b', 'b', 'b', "['c', 'c', 'd']", "['c', 'c', 'd']"]
+
+In [385]: {str(str(j)+':'+str(x.count(j))) for j in x}
+Out[385]: {"['c', 'c', 'd']:2", 'a:3', 'b:3'}
+
+如果要取嵌套list的中的元素次数
+首先flatten,然后取次数，如果list太大，可能就不允许flatten
+那么
+    s={}
+    def countnum(sh,x):
+        s[sh]=0
+        for i in x:
+            if type(i)!=list and i==sh:
+               s[sh]+=1
+            elif type(i)==list:
+               return (countnum(sh,i)+s[sh])
+            else:
+                pass
+        return s[sh]
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+'''默认为list 类型排后面
+'''
+def countnum(sh,x,p):
+    for i in x:
+        if type(i)!=list and i==sh:
+            p2[sh]=x.count(sh)
+        elif type(i)==list:
+            print("it is in list type %d" %p[sh])
+            return (countnum(sh,i,p)+str(p[sh]))
+        else:
+            print("it is not equel %d" %p[sh])
+    print("end of for %d " %p[sh])
+    a=p[sh]
+    print(a)
+    return "unknow"+str(a)
+p2['c']=0
+countnum('c',y,p2)
+
+
+竟然不支持，fuck
+
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+
+In [493]: y=['a', 'a', 'a', 'b', 'b', 'b', ['c', 'c', 'd',['a','a','d']], ['c', 'c', 'f']]
+     ...: p2={}
+     ...: '''默认为 list 类型排后面                                                       
+     ...: '''
+     ...: def countnum(sh,x,p):
+     ...:     for i in x:
+     ...:         if type(i)!=list and i==sh:
+     ...:             p2[sh]=x.count(sh)
+     ...:         elif type(i)==list:
+     ...:             print("it is in list type %d" %p[sh])
+     ...:             return (countnum(sh,i,p)+str(p[sh]))
+     ...:         else:
+     ...:             print("it is not equel %d" %p[sh])
+     ...:     print("end of for %d " %p[sh])
+     ...:     a=p[sh]
+     ...:     print(a)
+     ...:     return "unknow"+str(a)
+     ...: p2['c']=0
+     ...: countnum('c',y,p2)
+     ...: 
+it is not equel 0
+it is not equel 0
+it is not equel 0
+it is not equel 0
+it is not equel 0
+it is not equel 0
+it is in list type 0
+it is not equel 2
+end of for 2 
+2
+Out[493]: 'unknow22'
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+In [534]: y
+Out[534]: 
+['a',
+ 'a',
+ 'a',
+ 'b',
+ 'b',
+ 'b',
+ ['c', 'c', 'd', ['a', 'a', 'd']],
+ ['c', 'c', 'f']]
+
+
+count1=0
+def countnum(sh,x,count1):
+    for i in x:
+        if type(i)==str and i==sh:
+            count1+=1
+            print(count1)
+        elif type(i)==list:
+            print('in list %d' %count1)
+            print(i)
+            count1=countnum(sh,i,count1)
+        else:
+            count1=count1
+            print("in else %d" %count1)
+    return count1
+
+In [533]: countnum('b',y,count1)
+in else 0
+in else 0
+in else 0
+1
+2
+3
+in list 3
+['c', 'c', 'd', ['a', 'a', 'd']]
+in else 3
+in else 3
+in else 3
+in list 3
+['a', 'a', 'd']
+in else 3
+in else 3
+in else 3
+in list 3
+['c', 'c', 'f']
+in else 3
+in else 3
+in else 3
+Out[533]: 3
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+In [548]: y
+Out[548]: 
+['a',
+ 'a',
+ 'a',
+ 'b',
+ 'b',
+ 'b',
+ ['c', 'c', 'd', ['a', 'a', 'd']],
+ ['c', 'c', 'f']]
+
+In [549]: data =y
+
+In [550]: counter = defaultdict(lambda:0)
+
+In [551]: def count(data,counter):
+     ...:     for v in data:
+     ...:         if isinstance(v,list):
+     ...:             count(v,counter)
+     ...:         else:
+     ...:             counter[v]+=1
+     ...:             
+
+In [552]: count(data,counter)
+\

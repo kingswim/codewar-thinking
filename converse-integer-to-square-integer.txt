@@ -1,0 +1,4 @@
+f =lambda x:   int(''.join([str(int(i)*int(i)) for i in str(x)]))
+a = f(9119)
+a
+仍然用到类型转化

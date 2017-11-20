@@ -1,0 +1,31 @@
+x  = ['a','a','a','b','b','b',['c','c','d'],['c','c','d']]
+
+how to convert a list to dict
+like:
+        i=['a','b','v','a','g','v','v']
+
+        {j:i.count(j) for j in i}
+
+
+In [359]: {j:i.count(j) for j in i}
+Out[359]: {'a': 2, 'b': 2, 'g': 1, 'v': 1}
+
+but when used for x:
+will get  TypeError: unhashable type: 'list'
+
+不能类型推断
+
+修改:    {j:i.count(j) for j in i if type(j)==int}
+只能先将x 中每个元素 str(x)，然后{j:i.count(j) for j in i}
+
+In [363]: f = lambda x: str(x)
+
+In [364]: [f(i) for i in x  ]
+Out[364]: ['a', 'a', 'a', 'b', 'b', 'b', "['c', 'c', 'd']", "['c', 'c', 'd']"]
+
+In [385]: {str(str(j)+':'+str(x.count(j))) for j in x}
+Out[385]: {"['c', 'c', 'd']:2", 'a:3', 'b:3'}
+
+如果要取嵌套list的中的元素次数
+首先flattern,然后取次数，如果list太大，可能就不允许flattern
+

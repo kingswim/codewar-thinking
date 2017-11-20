@@ -1,0 +1,15 @@
+Given an array, find the int that appears an odd number of times.
+
+There will always be only one integer that appears an odd number of times.
+
+i------------------------------------------------------------------------
+
+   find_it= lambda x: i for i in seq if seq.count(i)%2==1 and type(i)==int
+
+
+
+-------------------------------------------------------------------------
+best:
+import operator
+def find_it(xs):
+    return reduce(operator.xor, xs)

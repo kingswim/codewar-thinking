@@ -1,0 +1,80 @@
+Write a function that takes in a string of one or more words, and returns the same string, but with all five or more letter words reversed (Just like the name of this Kata). Strings passed in will consist of only letters and spaces. Spaces will be included only when more than one word is present.
+
+Examples:
+
+spinWords( "Hey fellow warriors" ) => returns "Hey wollef sroirraw"
+spinWords( "This is a test") => returns "This is a test"
+spinWords( "This is another test" )=> returns "This is rehtona test"
+--------------------------------------------------------------------------
+def spin_words(sentence):                                                                                                                                            
+         
+    sentence=' '+sentence+' '
+    a=[]
+    d={0:0}
+    t=''
+    n=0
+    for i  in range(0,len(sentence)):
+        if sentence[i]==' ':
+           if i==0:
+              d[n]=0
+           else:
+              d[n]=i
+           n+=1
+           if n>=4 and d.get(n-1,-1)!=-1:
+              if d[n]-d[n-1]>=5:
+                 a=a+sentence[d[n-1]+1:d[n]][::-1]
+              else:
+                 a=a+sentence[d[n-1]+1:d[n]]
+           else:
+                a.append(sentence[i])
+        else :
+           pass
+
+    b=''.join(a)
+    return b
+
+def spin_words(sentence):
+    sentence=sentence+' to'
+    a=sentence.split(' ')
+    b=[]
+    for i in range(0,len(a)):
+        if len(a[i])>=5:
+            b=a[0:i]+[a[i][::-1],]+a[i+1:]
+            a=b
+        else:
+            b=a
+    k= ' '.join(b)
+    k=k[:-3]
+    return k
+
+
+最终版本
+def spin_words(sentence):
+    # Your code goes here
+    return " ".join([x[::-1] if len(x) >= 5 else x for x in sentence.split(" ")])
+
+
+
+本  来想一个一个推过去，到切片的时侯发现仍然要反转回溯，感觉很浪费，似乎我的算法一直在和回溯作斗争 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

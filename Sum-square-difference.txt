@@ -1,0 +1,46 @@
+
+
+The sum of the squares of the first ten natural numbers is,
+12 + 22 + ... + 102 = 385
+
+The square of the sum of the first ten natural numbers is,
+(1 + 2 + ... + 10)2 = 552 = 3025
+
+Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is 3025 − 385 = 2640.
+
+Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
+
+def reduce(function, iterable, initializer=None):
+    it = iter(iterable)
+    if initializer is None:
+        value = next(it)
+    else:
+        value = initializer
+    for element in it:
+        value = function(value, element)
+    return value
+
+
+reduce(lambda x,y:x*x+y*y,range(1,10))
+
+1.  it=range(1,10)
+    value=1
+    for element in range(1,10)
+        value = (lambda x,y :x*x+y*y) (1,2)   这里形成((x*x+y*y)**2+  这种情况
+
+
+
+
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+
+In [321]: reduce(lambda x,y:x+y*y,range(1,101))
+Out[321]: 338350
+
+In [322]: b=reduce(lambda x,y:x+y,range(1,101))
+
+In [323]: b*b
+Out[323]: 25502500
+
+n [324]: b*b-reduce(lambda x,y:x+y*y,range(1,101))
+Out[324]: 25164150
+

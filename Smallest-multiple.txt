@@ -1,0 +1,13 @@
+2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
+
+What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+[i for i in range(1,60000)  if  (all( i%j==0 for j in range(1,9))==True)]
+
+这个循环的效率太低
+
+In [304]: next(i for i in range(1,349189950) if (all( i%j==0 for j in (5,7,9,11,13,16,17,19))==True))
+Out[304]: 232792560
+
+

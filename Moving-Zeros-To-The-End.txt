@@ -1,0 +1,67 @@
+Write an algorithm that takes an array and moves all of the zeros to the end, preserving the order of the other elements
+move_zeros([false,1,0,1,2,0,1,3,"a"]) # returns[false,1,1,2,1,3,"a",0,0]
+
+ move_zeros=lambda array: i for i in array if
+
+
+如果我就要交换list中的位置   a = [1,2,3,4,5]
+                               a[]=
+
+首先要交换循环进行中的位置，比如3的倍数和5的倍数互换
+a=[14,6,7,10]
+
+for i in a:
+    if i%3==0:
+
+
+下面无效
+In [157]: a = [14,6,7,10]
+
+In [158]: for i in range(0,len(a)):
+     ...:     if i%3==0:
+     ...:         a.append(i)
+     ...:         a[i-1]=a[-2]
+     ...:         print(a[i-1])
+     ...:         a[-2]=a[-1]
+10
+10
+In [159]: a
+Out[159]: [14, 6, 10, 10, 3, 3]
+因为栈被干扰了，python的循环体中语句是一个单独的栈，与a的栈在pop的时侯发生干扰
+
+不能在循环时交换数据
+
+def move_zeros(array):
+    for i in array:
+        if i==0:
+           array
+
+
+所以先找到所有的0的位置,然后统一在以0的出现次数为循环中删掉所有0,并每次新增0到最后
+def find_0(array):
+    d=[]
+    t=array
+    count=0
+    for i in range(0,len(array)):
+        if array[i]==0 :
+           d.append(i)
+           del t[i]
+           t.append(0)
+           count+=1
+        else:
+           pass
+    return t
+
+最后决定先找到0个数，然后直接remove(0) count次，最后append count次
+def find_0(array):
+    t=array.count(0)
+    for i in range(1,t):
+        array.remove(0)
+    for i in range(1,t):
+        array.append(0)
+    return  array
+
+
+def move_zeros(arr):
+    l = [i for i in arr if isinstance(i, bool) or i!=0]
+    return l+[0]*(len(arr)-len(l))

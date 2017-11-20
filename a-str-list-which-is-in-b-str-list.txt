@@ -1,0 +1,34 @@
+Given two arrays of strings a1 and a2 return a sorted array r in lexicographical order of the strings of a1 which are substrings of strings of a2.
+
+#Example 1: a1 = ["arp", "live", "strong"]
+a2 = ["lively", "alive", "harp", "sharp", "armstrong"]
+returns ["arp", "live", "strong"]
+#Example 2: a1 = ["tarp", "mice", "bull"]
+a2 = ["lively", "alive", "harp", "sharp", "armstrong"]
+returns []
+#Notes: Arrays are written in "general" notation. See "Your Test Cases" for examples in your language.
+Beware: r must be without duplicates.
+
+1-rst :
+def in_array(array1, array2):
+    a1=[]
+    a=' '.join(array2)
+    for i in array1:
+        if  array.rfind(i)!=-1:
+            a1.append(i)
+        else:
+            continue
+    a1.sort()
+    return a1
+
+2-nd:
+  
+--------------------------------------------------------------------------
+substring 是什么？
+匹配次数
+
+
+
+
+------------------------------------------------------------
+第二感是把a2弄成一个sentence的字符串 ，然后拿a1去匹配  

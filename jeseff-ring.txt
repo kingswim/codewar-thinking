@@ -1,0 +1,40 @@
+    1    2    3    4    5    6    7    8    9    10
+                   |                   |
+         |                        |               
+              |                                  |
+                                            |
+               
+k个数，数到m ，m小于k 
+
+k=10,m=4
+第1轮: k个数，数到m :   开头的mod值,      1------k------        抽出去的值是     [1-int(k/m)]*m   抽出来的值的序号
+第 2 轮: k-int(k/m) 个数:   开头的 mod 值,     m-(k mod m)-----(k-int(k/m))-----  抛出去的值是   新列表的第 偏移值  m-1-(m-(k mod m))    ＋ m   (总个数-偏移值)/m  
+第 3 轮: 
+
+
+
+每轮抽掉k / m 数，如果k<m,则停止
+
+k / m = 
+把偏移值拿掉
+
+如果k=30,m=5,那么第一轮 去掉 5,10,15,20,25,30 ，去掉6个人，剩下24个人
+                  第二轮 去掉 5,10,15,20         去掉 4 个人，剩下 20个人
+                  第三轮 去掉 1,6,11,16         去掉 4 个人，剩下 16个人
+                  第四轮 去掉 1,6,11,16         去掉 4 个人，剩下 12个人
+                  第五轮 去掉 1,6,11            去掉 3 个人，剩下 9个人
+                  
+需要对比的，比如
+
+偏移值
+k从1开始
+list1=list(range(1,32))
+def jeseffring(k,m,offset,list1):
+    next_offset=[(k-offset+1) mod m)]
+    next_k = k-int((k-offset+1)/m)
+    i=0
+    current_del_m=int((k-offset+1)/m)
+    for i in range(1,current_del_m):
+        print(list1[offset+i*m])
+        del list1[offset+i*m]
+    return jeseffring(next_k,m,next_offset,list1)

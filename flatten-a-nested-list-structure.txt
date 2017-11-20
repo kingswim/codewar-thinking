@@ -1,0 +1,60 @@
+1.[a,[b,[c,d],e]]
+
+
+use lambda to sovle it
+
+a= [1, [2, 3, [4, 5]]]
+a[0]=1
+a[2]=[2,3,[4,5]]
+
+
+In [265]: b=[2,3,[4,5]] 
+In [267]: def f(t):
+     ...:     for g in t:
+     ...:         if type(g)== int:
+     ...:            print(g)
+     ...:            return g
+     ...:         else:
+     ...:            return  f(g) 
+     ...:        
+
+In [268]: f(b)
+2
+return means end of a block code
+recursive is not return
+
+In [280]: def f():
+     ...:     for i in range(10):
+     ...:         return i
+     ...:     
+
+In [281]: 
+
+In [281]: f()
+Out[281]: 0
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+In [271]: def f(t):
+     ...:     s=[]
+     ...:     for b in t:
+     ...:         if type(b)== int:
+     ...:            print(b)
+     ...:            s.append(b)
+     ...:         else:
+     ...:            return  f(b) 
+     ...:        
+
+In [272]: f(a)
+1
+2
+3
+4
+5
+
+
+
+
+

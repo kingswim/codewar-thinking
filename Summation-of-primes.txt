@@ -1,0 +1,30 @@
+
+
+The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+
+Find the sum of all the primes below two million.
+
+
+
+In [91]: t=(i for i in range(2,2000001) if isPrime(i)==True)
+
+In [92]: isPrime=lambda x: all(x % i != 0 for i in range(int(x**0.5)+1)[2:])
+
+In [93]: def sum(t):                                                        
+    ...:     sum=0   
+    ...:     for i in t:
+    ...:         sum+=i
+    ...:         print(sum)
+
+             
+------------------------------------------------------------------------------
+
+square = (i*i for i in itertools.count())
+bounded_squares = takewhile(lambda x : x< 100, square)
+total = 0
+for i in bounded_squares:
+   total += i
+------------------------------------------------------------------------------
+In [59]: t= (i for i in itertools.count() if isPrime(i)==True)
+
+In [60]: t1 = itertools.takewhile(lambda x:x<2000001,t)

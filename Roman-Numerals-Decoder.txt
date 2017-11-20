@@ -1,0 +1,199 @@
+Create a function that takes a Roman numeral as its argument and returns its value as a numeric decimal integer. You don't need to validate the form of the Roman numeral.
+
+Modern Roman numerals are written by expressing each decimal digit of the number to be encoded separately, starting with the leftmost digit and skipping any 0s. So 1990 is rendered "MCMXC" (1000 = M, 900 = CM, 90 = XC) and 2008 is rendered "MMVIII" (2000 = MM, 8 = VIII). The Roman numeral for 1666, "MDCLXVI", uses each letter in descending order.
+
+---------------------------------------------------
+感觉这是一个parser,要用ast来做
+
+MDCLXVI
+I --> 1
+V --> 5
+X --> 10
+L --> 50
+C --> 100
+D --> 500
+M --> 1000
+
+x=16666666666-->input
+
+x mod M = k    M *[(x-k)/M]
+
+k mod D = k1   D *[(k-k1)/D]
+
+import collections
+a=[1000,500,100,50,10,5]
+d = collections.OrderedDict({'M':1000,'D':500,'C':100,'L':50,'X':10,'V':5,'I':1,'E':0})
+d1=iter(d)
+def romantonum(x,d1,result=''):
+    current=next(d1)
+    if d[current] >4: 
+        if d[current]<x :
+            k=x%d[current]
+            num=(x-k)/d[current]
+            result+=current*int(num)
+            return romantonum(k,d1,result)
+        return romantonum(x,d1,result)
+    else:
+        if x==4:
+            result+='IV'
+            return result
+        if x<=3:
+            result+='I'*x
+            return result
+romantonum(3044,d1)
+
+--------------------------------------------------------------------------------
+result python3.6
+def solution(n):
+    import collections
+    d = collections.OrderedDict({'M':1000,'D':500,'C':100,'L':50,'X':10,'V':5,'I':1})
+    d1=iter(d)
+    def romantonum(x,d1,result=''):
+        current=next(d1)
+        if d[current] >4:
+            if d[current]<x :
+                k=x%d[current]
+                num=(x-k)/d[current]
+                result+=current*int(num)
+                return romantonum(k,d1,result)
+            return romantonum(x,d1,result)
+        else:
+            if x==5:
+                result+='V'
+                return result
+            if x==4:
+                result+='IV'                                          
+                return result
+            if x<=3:
+                result+='I'*x
+                return result
+    return romantonum(n,d1)
+--------------------------------------------------------------------------------
+result python2.7
+#!/bin/python
+import collections
+global d
+d=collections.OrderedDict([('M',1000),('D',500),('C',100),('L',50),('X',10),('V',5),('I',1)])
+global d1
+def romantonum(x,d1,result=''):
+        if x==9:
+                result+='IX'
+                return result
+        current=next(d1)
+        
+        if d[current] >4:
+            if d[current]<x :
+                k=x%d[current]
+                num=(x-k)/d[current]
+                result+=current*int(num)
+                return romantonum(k,d1,result)
+            return romantonum(x,d1,result)
+        else:
+            if x==5:
+                result+='V'
+            if x==4:
+                result+='IV'
+            if x<=3:
+                result+='I'*x
+            return result
+def solution(n):
+        global d
+        d1=iter(d)
+        end=romantonum(n,d1)
+        return end
+
+---but python2.7 closure cannot recursive,so must outside it
+
+-----------------------------------------------------------------------------------
+但是91是XCL   9是IX 所以还忽视了一个优先级
+
+990 ---  CMXC         
+950 ---  CML
+                                  900 ---  CM
+495 ---  CDXCV
+490 ---  CDXC
+450 ---  CDL
+                                  400 ---  CD
+95  ---  XCV
+                                  90  ---  XC
+49  ---  XLIX           
+45  ---  XLV
+                                  40  ---  XL
+                                  9   ---  IX
+                                  4   ---  IV
+
+
+#!/bin/python
+import collections
+global d
+d=collections.OrderedDict([('M',1000),('D',500),('C',100),('L',50),('X',10),('V',5),('I',1)])
+global d1
+
+def romantonum(x,d1,result=''):
+        strx=str(x)
+        xlen=len(strx)
+        currentdigit=x/(10**(xlen-1))
+        if x>=1000:
+           if x==1000:
+               return 'M'
+           else:
+               currentdigit=x/(1000)
+               lencurrent = len(str(currentdigit))
+               afterdigit=int(strx[lencurrent::])
+               result+='M'*currentdigit
+               return romantonum(afterdigit,d1,result)
+        if x>=900 and x< 1000:
+           afterdigit=int(strx[1::])
+           result+='CM'
+           return romantonum(afterdigit,d1,result)
+        elif x>=500 and x<900:
+           afterdigit=int(strx[1::])
+           result+='D'+'C'*(currentdigit-5)
+           return romantonum(afterdigit,d1,result)
+        elif x>=400 and x<500:
+           afterdigit=int(strx[1::])
+           result+='CD'
+           return romantonum(afterdigit,d1,result)
+        elif x>=100 and x<400:
+           afterdigit=int(strx[1::])
+           result+= currentdigit*'C'
+           return romantonum(afterdigit,d1,result)
+        elif x>=90 and x<100:
+           afterdigit=int(strx[1::])
+           result+='XC'
+           return romantonum(afterdigit,d1,result)
+        elif x>=50 and x<90:
+           afterdigit=int(strx[1::])
+           result+='L'+'X'*(currentdigit-5)
+           return romantonum(afterdigit,d1,result)
+        elif x>=40 and x<50:
+           afterdigit=int(strx[1::])
+           result+='XL'
+           return romantonum(afterdigit,d1,result)
+        elif x>=10 and x<40:
+           afterdigit=int(strx[1::])
+           result+= currentdigit*'X'
+           return romantonum(afterdigit,d1,result)
+        elif x<10 and x>0:
+           if x==9 :
+              result+='IX'
+              return result
+           elif x>=5 and x<=8:
+              result+='V'+'I'*(currentdigit-5)
+              return result
+           elif x==4:
+              result+='IV'
+              return result
+           elif x>0 and x<4:
+              result+='I'*(currentdigit)
+              return result
+
+def solution(n):
+        global d
+        d1=iter(d)
+        end=romantonum(n,d1)
+        print end
+        return end
+
+-------------------------------------------------------------------------------------------------------
+最终答案
